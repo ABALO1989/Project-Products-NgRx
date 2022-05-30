@@ -16,7 +16,9 @@ import { PageNotFoundComponent } from './home/page-not-found.component';
 
 /* Feature Modules */
 import { UserModule } from './user/user.module';
-import { StoreModule } from '@ngrx/store'; //2. ngRx importar la libreria
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment'; //2. ngRx importar la libreria
 
 @NgModule({
   imports: [
@@ -25,7 +27,11 @@ import { StoreModule } from '@ngrx/store'; //2. ngRx importar la libreria
     HttpClientInMemoryWebApiModule.forRoot(ProductData),
     UserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}) //2.1 iniclaizar la store en app module
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ 
+      name:'Products Demo App Devtools',
+      maxAge: 25, 
+      logOnly: environment.production }) //2.1 iniclaizar la store en app module
   ],
   declarations: [
     AppComponent,

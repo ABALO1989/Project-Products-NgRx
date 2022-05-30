@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { State } from '../state/product.reducer';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   //2.4 inyectar la store en el componente
-  constructor(private store:Store<any>, 
+  constructor(private store:Store<State>, 
     private productService: ProductService) { }
 
   ngOnInit(): void {
@@ -41,12 +42,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     //2.5 usar la funcion select, para pasar el segmento de estado deseado, en este caso products
 
     this.store.select('products').subscribe(
-      products=> {
-        if(products){
-          this.displayCode = products.showProductCode;
-        }
-      }
-    )
+      products=>
+          this.displayCode = products.showProductCode
+    );
   }
 
   ngOnDestroy(): void {
