@@ -1,32 +1,40 @@
-import { createAction, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
-import { ProductState } from 'src/app/products/state/product.reducer';
+// Homework
+import { User } from '../user';
 
+/* NgRx */
+import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
+import * as UserActions from './user.actions';
+
+// State for this feature (User)
 export interface UserState {
-    showNameUser: boolean;
+  maskUserName: boolean;
+  currentUser: User;
 }
-
 
 const initialState: UserState = {
-    showNameUser: false
-}
+  maskUserName: true,
+  currentUser: null
+};
 
-const getUserFeactureState = createFeatureSelector<UserState>('user');
+// Selector functions
+const getUserFeatureState = createFeatureSelector<UserState>('users');
 
-export const getShowNameUser = createSelector(
-    getUserFeactureState,
-    state=> state.showNameUser
+export const getMaskUserName = createSelector(
+  getUserFeatureState,
+  state => state.maskUserName
 );
 
-
-
+export const getCurrentUser = createSelector(
+  getUserFeatureState,
+  state => state.currentUser
+);
 
 export const userReducer = createReducer<UserState>(
-    initialState,
-    on(createAction('[User] Toggle User Name'), (state): UserState => {
-        console.log('Original state: ' + JSON.stringify(state));
-        return {
-            ...state,
-            showNameUser: !state.showNameUser
-        };
-    })
-)
+  initialState,
+  on(UserActions.maskUserName, (state): UserState => {
+    return {
+      ...state,
+      maskUserName: !state.maskUserName
+    };
+  })
+);
